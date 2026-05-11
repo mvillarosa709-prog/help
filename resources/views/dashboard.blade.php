@@ -46,13 +46,13 @@
                     </span>
                     <span>Drivers</span>
                 </a>
-                <a href="#" class="sidebar-link {{ $current === 'trip-logs' ? 'active' : '' }}">
+                <a href="{{ route('trip-logs.index') }}" class="sidebar-link {{ $current === 'trip-logs.index' ? 'active' : '' }}">
                     <span class="sidebar-link-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7h8" /><path d="M8 12h8" /><path d="M8 17h8" /><path d="M5 4h14" /><path d="M5 20h14" /></svg>
                     </span>
                     <span>Trip Logs</span>
                 </a>
-                <a href="#" class="sidebar-link {{ $current === 'maintenance' ? 'active' : '' }}">
+                <a href="{{ route('maintenance.index') }}" class="sidebar-link {{ $current === 'maintenance.index' ? 'active' : '' }}">
                     <span class="sidebar-link-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1l2 5h5l-4 3 2 5-4-3-4 3 2-5-4-3h5z" /></svg>
                     </span>

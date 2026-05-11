@@ -30,19 +30,19 @@
                     </span>
                     <span>Vehicles</span>
                 </a>
-                <a href="#" class="sidebar-link {{ $current === 'drivers' ? 'active' : '' }}">
+                <a href="{{ route('drivers.index') }}" class="sidebar-link {{ $current === 'drivers.index' ? 'active' : '' }}">
                     <span class="sidebar-link-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
                     </span>
                     <span>Drivers</span>
                 </a>
-                <a href="#" class="sidebar-link {{ $current === 'trip-logs' ? 'active' : '' }}">
+                <a href="{{ route('trip-logs.index') }}" class="sidebar-link {{ $current === 'trip-logs.index' ? 'active' : '' }}">
                     <span class="sidebar-link-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7h8" /><path d="M8 12h8" /><path d="M8 17h8" /><path d="M5 4h14" /><path d="M5 20h14" /></svg>
                     </span>
                     <span>Trip Logs</span>
                 </a>
-                <a href="#" class="sidebar-link {{ $current === 'maintenance' ? 'active' : '' }}">
+                <a href="{{ route('maintenance.index') }}" class="sidebar-link {{ $current === 'maintenance.index' ? 'active' : '' }}">
                     <span class="sidebar-link-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1l2 5h5l-4 3 2 5-4-3-4 3 2-5-4-3h5z" /></svg>
                     </span>
@@ -97,12 +97,13 @@
                 <option>Sedan</option>
                 <option>Truck</option>
                 <option>Van</option>
+                <option>SUV</option>
             </select>
             
             <select class="filter-select">
                 <option>in use</option>
                 <option>Available</option>
-                <option>Maintenance</option>
+                <option>Under Maintenance</option>
                 <option>Inactive</option>
             </select>
         </div>

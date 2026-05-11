@@ -3,8 +3,10 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LeaveRequestController;
+use App\Http\Controllers\TripLogController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\MaintenanceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('leave-requests', LeaveRequestController::class);
     Route::resource('vehicles', VehicleController::class);
     Route::resource('drivers', DriverController::class);
+    Route::get('trip-logs', [TripLogController::class, 'index'])->name('trip-logs.index');
+    Route::get('maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
 
     Route::middleware('role:Fleet Manager')->prefix('admin')->name('admin.')->group(function () {
         Route::get('reports', [DashboardController::class, 'index'])->name('reports');
