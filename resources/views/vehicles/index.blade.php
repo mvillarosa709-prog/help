@@ -48,7 +48,7 @@
                     </span>
                     <span>Maintenance</span>
                 </a>
-                <a href="#" class="sidebar-link {{ $current === 'reports' ? 'active' : '' }}">
+                <a href="{{ route('reports') }}" class="sidebar-link {{ $current === 'reports' ? 'active' : '' }}">
                     <span class="sidebar-link-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16" /><path d="M7 15v4" /><path d="M12 11v8" /><path d="M17 7v12" /></svg>
                     </span>
