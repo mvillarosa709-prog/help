@@ -4,17 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
-use App\Models\Vehicle;
 
 class VehicleController extends Controller
 {
-    // SHOW ALL VEHICLES
     public function index()
     {
-<<<<<<< HEAD
-        $vehicles = Vehicle::all();
-        return view('vehicles.index', compact('vehicles'));
-=======
         $vehicles = Vehicle::orderBy('plate_number')->get();
 
         return view('vehicles.index', compact('vehicles'));
@@ -72,56 +66,5 @@ class VehicleController extends Controller
         $vehicle->delete();
 
         return redirect()->route('vehicles.index')->with('success', 'Vehicle deleted successfully.');
->>>>>>> 200274370182e3840f446231f00f9bfa74bbfca8
-    }
-
-    // SHOW CREATE FORM
-    public function create()
-    {
-        return view('vehicles.create');
-    }
-
-    // STORE NEW VEHICLE
-    public function store(Request $request)
-    {
-        Vehicle::create([
-            'plate_number' => $request->plate_number,
-            'model' => $request->model,
-            'type' => $request->type,
-            'status' => $request->status,
-        ]);
-
-        return redirect('/vehicles')->with('success', 'Vehicle added successfully!');
-    }
-
-    // SHOW EDIT FORM
-    public function edit($id)
-    {
-        $vehicle = Vehicle::findOrFail($id);
-        return view('vehicles.edit', compact('vehicle'));
-    }
-
-    // UPDATE VEHICLE
-    public function update(Request $request, $id)
-    {
-        $vehicle = Vehicle::findOrFail($id);
-
-        $vehicle->update([
-            'plate_number' => $request->plate_number,
-            'model' => $request->model,
-            'type' => $request->type,
-            'status' => $request->status,
-        ]);
-
-        return redirect('/vehicles')->with('success', 'Vehicle updated successfully!');
-    }
-
-    // DELETE VEHICLE
-    public function destroy($id)
-    {
-        $vehicle = Vehicle::findOrFail($id);
-        $vehicle->delete();
-
-        return redirect('/vehicles')->with('success', 'Vehicle deleted successfully!');
     }
 }

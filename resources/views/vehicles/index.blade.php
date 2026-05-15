@@ -3,10 +3,19 @@
 @section('title', 'Vehicles')
 
 @section('content')
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="sidebar-card">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9" /><path d="M12 3v9h9" /></svg>
+                </div>
+                <div>
+                    <p class="sidebar-brand-title">FleetOps</p>
+                    <p class="sidebar-brand-subtitle">Console</p>
+                </div>
+            </div>
 
-<<<<<<< HEAD
-<div style="padding:2rem;">
-=======
             @php $current = Route::currentRouteName(); @endphp
             <nav class="sidebar-nav">
                 <a href="{{ route('dashboard') }}" class="sidebar-link {{ $current === 'dashboard' ? 'active' : '' }}">
@@ -47,77 +56,33 @@
                 </a>
             </nav>
         </div>
->>>>>>> 200274370182e3840f446231f00f9bfa74bbfca8
 
-    <h1>Vehicles</h1>
-
-    <!-- ADD BUTTON -->
-<a href="{{ route('vehicles.create') }}"
-   style="background:blue; color:white; padding:10px; display:inline-block; margin-bottom:15px; text-decoration:none; border-radius:5px;">
-    + Add Vehicle
-</a>
-
-<<<<<<< HEAD
-    <br><br>
-
-    <!-- TABLE -->
-    @if($vehicles->count() > 0)
-
-    <table border="1" cellpadding="10" style="width:100%; background:white;">
-        <tr>
-            <th>ID</th>
-            <th>Plate Number</th>
-            <th>Model</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-
-        @foreach($vehicles as $vehicle)
-        <tr>
-            <td>{{ $vehicle->id }}</td>
-            <td>{{ $vehicle->plate_number }}</td>
-            <td>{{ $vehicle->model }}</td>
-            <td>{{ $vehicle->type }}</td>
-            <td>{{ $vehicle->status }}</td>
-
-            <!-- ACTIONS -->
-            <td>
-                <!-- EDIT BUTTON -->
-                <a href="{{ route('vehicles.edit', $vehicle->id) }}"
-                   style="padding:5px 10px; background:orange; color:white; text-decoration:none; border-radius:5px;">
-                    Edit
-                </a>
-
-                <!-- DELETE BUTTON -->
-                <form method="POST"
-                      action="{{ route('vehicles.destroy', $vehicle->id) }}"
-                      style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-
-                    <button onclick="return confirm('Delete this vehicle?')"
-                            style="padding:5px 10px; background:red; color:white; border:none; border-radius:5px;">
-                        Delete
-                    </button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-
-    </table>
-
-    @else
-        <div style="padding:20px; background:#f1f5f9; text-align:center;">
-            <h3>No vehicles found</h3>
-            <p>Click Add Vehicle to start</p>
+        <div class="sidebar-card sidebar-footer">
+            <div class="sidebar-footer-title">Fleet Manager</div>
+            <div class="sidebar-footer-subtitle">{{ auth()->user()->name }}</div>
+            <div class="sidebar-footer-subtitle">{{ auth()->user()->email }}</div>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="sidebar-footer-button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
+                    Sign out
+                </button>
+            </form>
         </div>
-    @endif
+    </aside>
 
-</div>
+    <div>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+            <div>
+                <h1 style="margin: 0 0 0.5rem 0; font-size: 1.75rem; color: #0f172a;">Vehicles</h1>
+                <p style="margin: 0; color: #64748b; font-size: 0.95rem;">Manage your fleet vehicles, photos, status and assignments.</p>
+            </div>
+            <button onclick="openAddVehicleModal()" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.25rem; background: #1d4ed8; color: #ffffff; border-radius: 0.85rem; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1.25rem; height: 1.25rem;"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                Add vehicle
+            </button>
+        </div>
 
-@endsection
-=======
         <div class="vehicles-controls">
             <div class="search-bar" style="flex: 1;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1.25rem; height: 1.25rem; color: #94a3b8;">
@@ -533,8 +498,7 @@
         background: #e2e8f0;
         color: #475569;
     }
-
-    .vehicle-card-details {
+.vehicle-card-details {
         display: grid;
         gap: 0.75rem;
         padding: 1rem 0;
@@ -724,143 +688,3 @@
         transition: border-color 0.2s ease;
         font-family: inherit;
     }
-
-    .form-input:focus {
-        outline: none;
-        border-color: #1d4ed8;
-        box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
-    }
-
-    .form-input::placeholder {
-        color: #94a3b8;
-    }
-
-    .modal-footer {
-        display: flex;
-        justify-content: flex-end;
-        gap: 1rem;
-        padding: 2rem;
-        border-top: 1px solid #e2e8f0;
-    }
-
-    .cancel-button {
-        padding: 0.8rem 1.5rem;
-        border: 1px solid #cbd5e1;
-        border-radius: 0.6rem;
-        background: #ffffff;
-        color: #0f172a;
-        font-weight: 600;
-        font-size: 0.95rem;
-        cursor: pointer;
-        transition: background .2s ease, border-color .2s ease;
-    }
-
-    .cancel-button:hover {
-        background: #f8fafc;
-        border-color: #94a3b8;
-    }
-
-    .create-button {
-        padding: 0.8rem 1.5rem;
-        border: none;
-        border-radius: 0.6rem;
-        background: #1d4ed8;
-        color: #ffffff;
-        font-weight: 600;
-        font-size: 0.95rem;
-        cursor: pointer;
-        transition: background .2s ease;
-    }
-
-    .create-button:hover {
-        background: #1e40af;
-    }
-
-    @media (max-width: 1024px) {
-        .vehicles-grid {
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        }
-    }
-
-    @media (max-width: 768px) {
-        .vehicles-controls {
-            flex-direction: column;
-        }
-
-        .search-bar {
-            order: -1;
-        }
-
-        .vehicles-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .modal-content {
-            width: 95%;
-        }
-
-        .modal-header,
-        .modal-body,
-        .modal-footer {
-            padding: 1.5rem;
-        }
-
-        .form-row {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
-
-<script>
-    function openAddVehicleModal() {
-        document.getElementById('addVehicleModal').classList.add('active');
-    }
-
-    function closeAddVehicleModal() {
-        document.getElementById('addVehicleModal').classList.remove('active');
-    }
-
-    function openEditVehicleModal(vehicleId) {
-        var vehicle = document.querySelector('[data-vehicle-id="' + vehicleId + '"]');
-        if (!vehicle) {
-            return;
-        }
-
-        var editForm = document.getElementById('editVehicleForm');
-        editForm.action = '{{ url("vehicles") }}/' + vehicleId;
-
-        document.getElementById('editPlate').value = vehicle.getAttribute('data-plate');
-        document.getElementById('editMake').value = vehicle.getAttribute('data-make');
-        document.getElementById('editModel').value = vehicle.getAttribute('data-model');
-        document.getElementById('editYear').value = vehicle.getAttribute('data-year');
-        document.getElementById('editColor').value = vehicle.getAttribute('data-color');
-        document.getElementById('editType').value = vehicle.getAttribute('data-type');
-        document.getElementById('editFuel').value = vehicle.getAttribute('data-fuel');
-        document.getElementById('editStatus').value = vehicle.getAttribute('data-status');
-        document.getElementById('editOdometer').value = vehicle.getAttribute('data-odometer');
-        document.getElementById('editInterval').value = vehicle.getAttribute('data-interval');
-        document.getElementById('editDriver').value = vehicle.getAttribute('data-driver');
-
-        document.getElementById('editVehicleModal').classList.add('active');
-    }
-
-    function closeEditVehicleModal() {
-        document.getElementById('editVehicleModal').classList.remove('active');
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('addVehicleModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeAddVehicleModal();
-            }
-        });
-
-        document.getElementById('editVehicleModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeEditVehicleModal();
-            }
-        });
-    });
-</script>
-@endsection
->>>>>>> 200274370182e3840f446231f00f9bfa74bbfca8

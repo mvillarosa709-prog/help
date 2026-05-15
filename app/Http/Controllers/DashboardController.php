@@ -22,10 +22,10 @@ class DashboardController extends Controller
 
         // Driver stats
         $totalDrivers = Driver::count();
-        $activeDrivers = Driver::count();
+        $activeDrivers = Driver::where('status', 'active')->count();
 
         // Trip stats - trips logged in the last 24 hours
-        $tripsToday = TripLog::where('start_date', '>=', Carbon::now()->subDay())->count();
+        $tripsToday = TripLog::where('departure', '>=', Carbon::now()->subDay())->count();
 
         // Maintenance stats
         $underMaintenance = Vehicle::where('status', 'maintenance')->count();
