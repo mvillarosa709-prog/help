@@ -33,7 +33,7 @@
     </form>
 
     <p class="mt-6 text-center text-sm text-slate-600">
-        Already registered? <a href="{{ route('login.show') }}" class="font-medium text-slate-900 hover:underline">Login</a>
+        Already registered? <a href="{{ route('login') }}" class="font-medium text-slate-900 hover:underline">Login</a>
     </p>
 </div>
 @endsection

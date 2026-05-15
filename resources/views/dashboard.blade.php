@@ -3,16 +3,6 @@
 @section('title', 'Dashboard')
 
 @section('content')
-@php
-    $totalRequests = $leaveRequests->count();
-    $approvedRequests = $leaveRequests->where('status', 'approved')->count();
-    $pendingRequests = $leaveRequests->where('status', 'pending')->count();
-    $rejectedRequests = $leaveRequests->where('status', 'rejected')->count();
-    $upcomingRequest = $leaveRequests->where('start_date', '>=', now()->toDateString())->sortBy('start_date')->first();
-    $typeGroups = $leaveRequests->groupBy('type');
-    $maxTypeCount = $typeGroups->max(fn($group) => $group->count()) ?: 1;
-@endphp
-
 <div class="app-shell">
     <aside class="sidebar">
         <div class="sidebar-card">
@@ -20,23 +10,22 @@
                 <div class="sidebar-brand-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9" /><path d="M12 3v9h9" /></svg>
                 </div>
-                <div>
-                    <p class="sidebar-brand-title">FleetOps</p>
-                    <p class="sidebar-brand-subtitle">Console</p>
+                <div class="sidebar-brand-copy">
+                    <div class="sidebar-brand-title">FleetOps</div>
+                    <div class="sidebar-brand-subtitle">Console</div>
                 </div>
             </div>
-
             @php $current = Route::currentRouteName(); @endphp
             <nav class="sidebar-nav">
                 <a href="{{ route('dashboard') }}" class="sidebar-link {{ $current === 'dashboard' ? 'active' : '' }}">
                     <span class="sidebar-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18" /><path d="M12 3v18" /></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
                     </span>
                     <span>Dashboard</span>
                 </a>
                 <a href="{{ route('vehicles.index') }}" class="sidebar-link {{ $current === 'vehicles.index' ? 'active' : '' }}">
                     <span class="sidebar-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13l2-5h13l2 5" /><path d="M5 18h14" /><circle cx="7.5" cy="18.5" r="1.5" /><circle cx="16.5" cy="18.5" r="1.5" /></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0H9"/></svg>
                     </span>
                     <span>Vehicles</span>
                 </a>
@@ -46,21 +35,21 @@
                     </span>
                     <span>Drivers</span>
                 </a>
-                <a href="#" class="sidebar-link {{ $current === 'trip-logs' ? 'active' : '' }}">
+                <a href="{{ route('trip-logs.index') }}" class="sidebar-link {{ $current === 'trip-logs.index' ? 'active' : '' }}">
                     <span class="sidebar-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7h8" /><path d="M8 12h8" /><path d="M8 17h8" /><path d="M5 4h14" /><path d="M5 20h14" /></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 14l2 2 4-4"/></svg>
                     </span>
                     <span>Trip Logs</span>
                 </a>
-                <a href="#" class="sidebar-link {{ $current === 'maintenance' ? 'active' : '' }}">
+                <a href="{{ route('maintenance.index') }}" class="sidebar-link {{ $current === 'maintenance.index' ? 'active' : '' }}">
                     <span class="sidebar-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1l2 5h5l-4 3 2 5-4-3-4 3 2-5-4-3h5z" /></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
                     </span>
                     <span>Maintenance</span>
                 </a>
-                <a href="#" class="sidebar-link {{ $current === 'reports' ? 'active' : '' }}">
+                <a href="{{ route('reports') }}" class="sidebar-link {{ $current === 'reports' ? 'active' : '' }}">
                     <span class="sidebar-link-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16" /><path d="M7 15v4" /><path d="M12 11v8" /><path d="M17 7v12" /></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
                     </span>
                     <span>Reports</span>
                 </a>
@@ -68,12 +57,14 @@
         </div>
 
         <div class="sidebar-card sidebar-footer">
-            <div class="sidebar-footer-title">Fleet Manager</div>
-            <div class="sidebar-footer-subtitle">{{ auth()->user()->name }}</div>
+            <div class="sidebar-footer-title">{{ auth()->user()->name }}</div>
             <div class="sidebar-footer-subtitle">{{ auth()->user()->email }}</div>
+            @if(auth()->user()->role)
+                <div class="sidebar-role-badge">{{ auth()->user()->role->name }}</div>
+            @endif
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="sidebar-footer-button">
+                <button type="submit" class="sidebar-signout-button">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
                     Sign out
                 </button>
@@ -81,108 +72,141 @@
         </div>
     </aside>
 
-    <div>
-        <div style="margin-bottom: 2rem;">
-            <h1 style="margin: 0 0 0.5rem 0; font-size: 1.75rem; color: #0f172a;">Operations overview</h1>
-            <p style="margin: 0; color: #64748b; font-size: 0.95rem;">Live snapshot of your fleet status, drivers and upcoming actions.</p>
+    <div class="dashboard-main">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Operations overview</h1>
+            <p class="dashboard-subtitle">Live snapshot of your fleet status, drivers and upcoming actions.</p>
         </div>
 
         <div class="metric-grid">
             <article class="metric-card">
-                <div class="metric-label">Total vehicles</div>
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 1rem;">
-                    <div class="metric-value">4</div>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 2rem; height: 2rem; color: #cbd5e1;"><path d="M3 13l2-5h13l2 5" /><path d="M5 18h14" /><circle cx="7.5" cy="18.5" r="1.5" /><circle cx="16.5" cy="18.5" r="1.5" /></svg>
+                <div class="metric-top">
+                    <div class="metric-label">Total vehicles</div>
+                    <div class="metric-icon metric-icon--blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M5 17H3v-6l2-5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0H9"/></svg>
+                    </div>
                 </div>
-                <div class="metric-note">2 available · 1 in-use</div>
+                <div class="metric-value">{{ $totalVehicles }}</div>
+                <div class="metric-note">{{ $availableVehicles }} available · {{ $inUseVehicles }} in-use</div>
             </article>
             <article class="metric-card">
-                <div class="metric-label">Active drivers</div>
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 1rem;">
-                    <div class="metric-value">2/3</div>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 2rem; height: 2rem; color: #cbd5e1;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+                <div class="metric-top">
+                    <div class="metric-label">Active drivers</div>
+                    <div class="metric-icon metric-icon--amber">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
                 </div>
+                <div class="metric-value">{{ $activeDrivers }}/{{ $totalDrivers }}</div>
                 <div class="metric-note">active out of total</div>
             </article>
             <article class="metric-card">
-                <div class="metric-label">Trips today</div>
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 1rem;">
-                    <div class="metric-value">0</div>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 2rem; height: 2rem; color: #cbd5e1;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+                <div class="metric-top">
+                    <div class="metric-label">Trips today</div>
+                    <div class="metric-icon metric-icon--green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+                    </div>
                 </div>
+                <div class="metric-value">{{ $tripsToday }}</div>
                 <div class="metric-note">logged in last 24 hours</div>
             </article>
             <article class="metric-card">
-                <div class="metric-label">Under maintenance</div>
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 1rem;">
-                    <div class="metric-value">1</div>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 2rem; height: 2rem; color: #cbd5e1;"><path d="M4 19h16" /><path d="M7 15v4" /><path d="M12 11v8" /><path d="M17 7v12" /></svg>
+                <div class="metric-top">
+                    <div class="metric-label">Under maintenance</div>
+                    <div class="metric-icon metric-icon--red">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    </div>
                 </div>
-                <div class="metric-note">1 overdue alert</div>
+                <div class="metric-value">{{ $underMaintenance }}</div>
+                <div class="metric-note">{{ $overdueMaintenance }} overdue alert{{ $overdueMaintenance !== 1 ? 's' : '' }}</div>
             </article>
         </div>
 
         <div class="charts-grid">
             <section class="content-card chart-panel">
-                <div class="alert-header">
-                    <div>
-                        <div class="alert-label">Trips per vehicle</div>
-                        <h2 class="alert-headline">Distance and frequency by plate</h2>
-                    </div>
+                <div class="chart-header">
+                    <h2 class="chart-title">Trips per vehicle</h2>
+                    <p class="chart-subtitle">Distance and frequency by plate</p>
                 </div>
-                @if ($typeGroups->isEmpty())
-                    <div class="alert-card">No request activity yet.</div>
+                @if ($tripsPerVehicle->isEmpty())
+                    <div class="chart-empty">No trip data recorded yet.</div>
                 @else
-                    <div class="chart-bar-row">
-                        @foreach ($typeGroups as $type => $group)
-                            @php $ratio = ($group->count() / $maxTypeCount) * 100; @endphp
-                            <div>
-                                <div class="progress-meta">
-                                    <span>{{ $type }}</span>
-                                    <span>{{ $group->count() }}</span>
-                                </div>
-                                <div class="progress-track">
-                                    <div class="progress-fill" style="width: {{ $ratio }}%"></div>
-                                </div>
+                    @php
+                        $maxTrips = $tripsPerVehicle->max('trip_count') ?: 1;
+                        // Round up to next nice number for y-axis
+                        $yMax = ceil($maxTrips / 50) * 50;
+                        if ($yMax < 50) $yMax = max($maxTrips + 5, 10);
+                    @endphp
+                    <div class="bar-chart-container">
+                        <div class="bar-chart-y-axis">
+                            @for ($i = 4; $i >= 0; $i--)
+                                <span>{{ round($yMax / 4 * $i) }}</span>
+                            @endfor
+                        </div>
+                        <div class="bar-chart-area">
+                            <div class="bar-chart-grid-lines">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <div class="bar-chart-grid-line"></div>
+                                @endfor
                             </div>
-                        @endforeach
+                            <div class="bar-chart-bars">
+                                @foreach ($tripsPerVehicle as $trip)
+                                    @php $barHeight = ($trip->trip_count / $yMax) * 100; @endphp
+                                    <div class="bar-chart-bar-group">
+                                        <div class="bar-chart-bar-wrapper">
+                                            <div class="bar-chart-bar" style="height: {{ $barHeight }}%">
+                                                <span class="bar-chart-tooltip">{{ $trip->trip_count }}</span>
+                                            </div>
+                                        </div>
+                                        <span class="bar-chart-label">{{ $trip->vehicle }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 @endif
             </section>
 
             <aside class="content-card alert-panel">
-                <div class="alert-header" style="margin-bottom: 1.5rem;">
-                    <div>
-                        <div class="alert-label">ALERTS</div>
-                        <h2 class="alert-headline">Alerts</h2>
-                    </div>
-                </div>
+                <h2 class="alert-panel-title">Alerts</h2>
 
-                <div class="alert-card">
-                    <div class="alert-row">
-                        <div style="font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.5rem;">LICENSE EXPIRING</div>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <p class="alert-title">Sam Driver</p>
-                            <p class="alert-date">2026-05-25</p>
+                {{-- License Expiring Alerts --}}
+                @if ($expiringLicenses->isNotEmpty())
+                    <div class="alert-section">
+                        <div class="alert-section-label">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+                            License expiring
                         </div>
-                    </div>
-                </div>
-
-                <div class="alert-card">
-                    <div class="alert-row">
-                        <div style="font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.5rem; display: flex; gap: 0.5rem;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 1rem; height: 1rem;">⚠</svg>
-                            MAINTENANCE DUE
-                        </div>
-                        <div style="display: grid; gap: 0.5rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <p class="alert-title">FL-3315</p>
-                                <p class="alert-title">Tire Rotation</p>
+                        @foreach ($expiringLicenses as $driver)
+                            <div class="alert-item">
+                                <span class="alert-item-name">{{ $driver->name }}</span>
+                                <span class="alert-item-date alert-item-date--blue">{{ $driver->license_expiry->format('Y-m-d') }}</span>
                             </div>
-                            <p style="color: #b45309; font-weight: 700; font-size: 0.9rem;">Due on 2026-05-03</p>
-                        </div>
+                        @endforeach
                     </div>
-                </div>
+                @endif
+
+                {{-- Maintenance Due Alerts --}}
+                @if ($maintenanceDue->isNotEmpty())
+                    <div class="alert-section">
+                        <div class="alert-section-label">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            Maintenance due
+                        </div>
+                        @foreach ($maintenanceDue as $maint)
+                            <div class="alert-item-block">
+                                <div class="alert-item">
+                                    <span class="alert-item-name">{{ $maint->vehicle ? $maint->vehicle->plate_number : 'N/A' }}</span>
+                                    <span class="alert-item-type">{{ $maint->type }}</span>
+                                </div>
+                                <div class="alert-item-overdue">Due on {{ $maint->next_due->format('Y-m-d') }}</div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+
+                @if ($expiringLicenses->isEmpty() && $maintenanceDue->isEmpty())
+                    <div class="alert-empty">No alerts at this time.</div>
+                @endif
             </aside>
         </div>
     </div>
