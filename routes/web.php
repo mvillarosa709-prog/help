@@ -59,9 +59,8 @@ Route::middleware('auth')->group(function () {
     | Trip Logs
     |--------------------------------------------------------------------------
     */
-    Route::get('/trip-logs', [TripLogController::class, 'index'])->name('trip-logs.index');
-    Route::post('/trip-logs', [TripLogController::class, 'store'])->name('trip-logs.store');
-
+    Route::resource('trip-logs', TripLogController::class);
+    
     // Reports
     Route::get('reports', [ReportsController::class, 'index'])->name('reports');
 

@@ -10,10 +10,7 @@ class MaintenanceController extends Controller
 {
     public function index()
     {
-        $maintenance = Maintenance::with('vehicle')
-            ->orderBy('date', 'desc')
-            ->get();
-
+        $maintenance = Maintenance::with('vehicle')->latest()->get();
         $vehicles = Vehicle::all();
 
         return view('maintenance.index', compact('maintenance', 'vehicles'));
@@ -25,44 +22,38 @@ class MaintenanceController extends Controller
             'vehicle_id' => 'required|exists:vehicles,id',
             'type' => 'required|string',
             'date' => 'required|date',
-            'cost' => 'required|numeric|min:0',
+            'cost' => 'required|numeric',
             'next_due' => 'nullable|date',
-            'next_due_km' => 'nullable|integer|min:0',
             'remarks' => 'nullable|string',
         ]);
 
         Maintenance::create($validated);
 
-        return redirect()->route('maintenance.index')->with('success', 'Maintenance record added successfully.');
+        return back()->with('success', 'Added successfully');
     }
 
-    public function show(Maintenance $maintenance)
+    public function update(Request $request, $id)
     {
-        return response()->json($maintenance);
-    }
+        $maintenance = Maintenance::findOrFail($id);
 
-    public function update(Request $request, Maintenance $maintenance)
-    {
         $validated = $request->validate([
             'vehicle_id' => 'required|exists:vehicles,id',
             'type' => 'required|string',
             'date' => 'required|date',
-            'cost' => 'required|numeric|min:0',
+            'cost' => 'required|numeric',
             'next_due' => 'nullable|date',
-            'next_due_km' => 'nullable|integer|min:0',
             'remarks' => 'nullable|string',
         ]);
 
         $maintenance->update($validated);
 
-        return redirect()->route('maintenance.index')->with('success', 'Maintenance record updated successfully.');
+        return back()->with('success', 'Updated successfully');
     }
 
-    public function destroy(Maintenance $maintenance)
+    public function destroy($id)
     {
-        $maintenance->delete();
+        Maintenance::findOrFail($id)->delete();
 
-        return redirect()->route('maintenance.index')->with('success', 'Maintenance record deleted successfully.');
+        return back()->with('success', 'Deleted successfully');
     }
 }
-
